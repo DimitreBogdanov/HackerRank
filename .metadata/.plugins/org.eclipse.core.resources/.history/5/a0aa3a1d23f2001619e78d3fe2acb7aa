@@ -5,26 +5,19 @@ import java.util.Scanner;
 @SuppressWarnings(value = { "unused" })
 public class Main {
 
-	private static Scanner in;
+	private Scanner in;
 	
 	public static void main(String[] args) {
-		in = new Scanner(System.in);
-		
-		
 		xorAndSum();
-		
-		
-		in.close();
 	}
 	
 	private static void xorAndSum(){
-		int a = in.nextInt();
-		int b = in.nextInt();
-		
 		
 	}
 	
+	//@SuppressWarnings("unused")
 	private static void circularRotation(){
+		Scanner in = new Scanner(System.in);
         //elements
         int n = in.nextInt();
         //rotations
@@ -45,6 +38,7 @@ public class Main {
         		System.out.println(a[num-rotation+a.length]);
         	}
         }
+        in.close();
 	}
 
 }

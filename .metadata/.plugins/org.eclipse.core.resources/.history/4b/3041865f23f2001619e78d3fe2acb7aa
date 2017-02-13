@@ -18,9 +18,6 @@ public class Main {
 	}
 	
 	private static void xorAndSum(){
-		int a = in.nextInt();
-		int b = in.nextInt();
-		
 		
 	}
 	
