@@ -11,10 +11,24 @@ public class Main {
 		in = new Scanner(System.in);
 		
 		
-		xorAndSum();
+		equal();
 		
 		
 		in.close();
+	}
+	
+	private static void equal(){
+		int cases = in.nextInt();
+		
+		for(int i = 0; i < cases; i++){
+			int count = in.nextInt();
+			int[] interns = new int[count]; 
+			int high = 0;
+			int low = 0;
+			for(int j = 0; j < count; j++){
+				interns[j] = in.nextInt();
+			}
+		}
 	}
 	
 	private static void xorAndSum(){
