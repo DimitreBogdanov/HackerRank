@@ -6,59 +6,90 @@ import java.util.Scanner;
 public class Main {
 
 	private static Scanner in;
-	
+
 	public static void main(String[] args) {
 		in = new Scanner(System.in);
-		
-		
-		equal();
-		
-		
+
+		sherlock();
+
 		in.close();
 	}
-	
-	private static void equal(){
+
+	private static void sherlock() {
+
+		int t = in.nextInt();
+
+		for (int i = 0; i < t; i++) {
+			int s = 0;
+			int n = in.nextInt();
+			int[] b = new int[n];
+
+			for (int j = 0; j < n; j++) {
+				b[j] = in.nextInt();
+			}
+
+			for (int k = 1; k < n; k++) {
+				if (b[k] > b[k - 1]) {
+					s += Math.abs(b[k] - 1);
+				} else {
+					s += Math.abs(1 - b[k - 1]);
+				}
+			}
+			System.out.println(s);
+		}
+
+	}
+
+	private static void equal() {
 		int cases = in.nextInt();
-		
-		for(int i = 0; i < cases; i++){
+
+		for (int i = 0; i < cases; i++) {
 			int count = in.nextInt();
-			int[] interns = new int[count]; 
+			int[] interns = new int[count];
 			int high = 0;
 			int low = 0;
-			for(int j = 0; j < count; j++){
+			for (int j = 0; j < count; j++) {
 				interns[j] = in.nextInt();
 			}
 		}
 	}
-	
-	private static void xorAndSum(){
+
+	private static void xorAndSum() {
 		int a = in.nextInt();
 		int b = in.nextInt();
-		
-		
+
 	}
-	
-	private static void circularRotation(){
-        //elements
-        int n = in.nextInt();
-        //rotations
-        int k = in.nextInt();
-        //queries
-        int q = in.nextInt();
-        int rotation=k%n;
-        int[] a = new int[n];
-        
-        for(int i = 0; i < n; i++){
-            a[i] = in.nextInt();
-        }
-        for(int i = 0; i < q; i++){
-        	int num = in.nextInt();
-        	if(num-rotation >= 0){
-        		System.out.println(a[num-rotation]);
-        	}else{
-        		System.out.println(a[num-rotation+a.length]);
-        	}
-        }
+
+	private static void circularRotation() {
+		// elements
+		int n = in.nextInt();
+		// rotations
+		int k = in.nextInt();
+		// queries
+		int q = in.nextInt();
+		int rotation = k % n;
+		int[] a = new int[n];
+
+		for (int i = 0; i < n; i++) {
+			a[i] = in.nextInt();
+		}
+		for (int i = 0; i < q; i++) {
+			int num = in.nextInt();
+			if (num - rotation >= 0) {
+				System.out.println(a[num - rotation]);
+			} else {
+				System.out.println(a[num - rotation + a.length]);
+			}
+		}
+	}
+
+	private static int max(int... nums) {
+		int max = 0;
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] > max)
+				max = nums[i];
+		}
+		return max;
 	}
 
 }
