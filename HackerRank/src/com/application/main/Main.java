@@ -1,6 +1,7 @@
 package com.application.main;
 
 import java.util.Scanner;
+import java.math.BigInteger;
 import java.text.*;
 
 @SuppressWarnings(value = { "unused" })
@@ -10,10 +11,36 @@ public class Main {
 
 	public static void main(String[] args) {
 		in = new Scanner(System.in);
+		
+		
 
-candies();
 		
 		in.close();
+	}
+	
+	//https://www.hackerrank.com/challenges/fibonacci-modified
+	//up to 32 bit
+	private static float modifiedFibonnaci(int first, int second, int n){
+		
+		if(n == 1)
+			return first;
+		
+		if(n == 2)
+			return second;
+			
+		return (float)(modifiedFibonnaci(first, second, n-2) + Math.pow(modifiedFibonnaci(first, second, n-1),2));
+		
+	}
+	
+	//https://www.hackerrank.com/challenges/fibonacci-modified
+	//above 64 bit
+	private static BigInteger modifiedFib(int first, int second, int n){
+		if(n == 1)
+			return BigInteger.valueOf(first);
+		if(n == 2)
+			return BigInteger.valueOf(second);
+		
+		return modifiedFib(first,second,n-2).add(modifiedFib(first,second,n-1).pow(2));
 	}
 	
 	private static void candies(){
