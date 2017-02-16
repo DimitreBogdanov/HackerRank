@@ -24,19 +24,21 @@ candies();
 		}
 		int count = 1;
 		int amount = 1;
-		boolean more = false;
 		for(int i = 1; i < n; i++){
-//			if(a[i] > a[i+1] || (i > 1 && a[i-1] < a[i])){
-//				count +=2;
-//			}else{
-//				count +=3;
-//				i++;
-//			}
-			
 			if(a[i] > a[i-1]){
 				amount++;
 			}else{
-				amount = 1;
+				if(i < n-1 && a[i] > a[i+1]){
+					amount--;
+				}else{
+					amount = 1;
+				}
+				
+				
+//				amount = 1;
+//				if(i < n-1 && a[i+1] < a[i]){
+//					amount++;
+//				}
 			}
 			count += amount;
 		}
