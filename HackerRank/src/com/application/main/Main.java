@@ -16,9 +16,47 @@ public class Main {
 	public static void main(String[] args) {
 		in = new Scanner(System.in);
 
-		
+		hourglass();
 
 		in.close();
+	}
+	
+	//https://www.hackerrank.com/challenges/2d-array
+	private static void hourglass(){
+		
+		int row = 6;
+		int col = 6;
+		int[][] graph = new int[6][6];
+
+		for(int i = 0; i < row; i++)
+			for(int j = 0; j < col; j++)
+				graph[i][j] = in.nextInt();
+		
+		//[1][1] to [4][4] is the middle of an hourglass
+		
+		int max = Integer.MIN_VALUE;
+		
+		for(int i = 1; i <= row-2; i++){
+			for(int j = 1; j <= col-2; j++){
+				int a0 = graph[i][j];
+				
+				int a1 = graph[i-1][j-1];
+				int a2 = graph[i-1][j];
+				int a3 = graph[i-1][j+1];
+				
+				int a4 = graph[i+1][j-1];
+				int a5 = graph[i+1][j];
+				int a6 = graph[i+1][j+1];
+				
+				int sum = a0+a1+a2+a3+a4+a5+a6;
+				
+				if(sum > max)
+					max = sum;
+			}
+		}
+		
+		System.out.println(max);
+		
 	}
 	
 	
