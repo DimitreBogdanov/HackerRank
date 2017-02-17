@@ -16,9 +16,14 @@ public class Main {
 	public static void main(String[] args) {
 		in = new Scanner(System.in);
 
-		hourglass();
+		dynamicArray();
 
 		in.close();
+	}
+	
+	//https://www.hackerrank.com/challenges/dynamic-array
+	private static void dynamicArray(){
+		
 	}
 	
 	//https://www.hackerrank.com/challenges/2d-array
@@ -356,6 +361,12 @@ public class Main {
 			sum *= (--n);
 		}
 		return sum;
+	}
+	
+	private static boolean xor(int a, int b){
+		if(a != b)
+			return true;
+		return false;
 	}
 
 }
