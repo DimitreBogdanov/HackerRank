@@ -24,6 +24,33 @@ public class Main {
 	//https://www.hackerrank.com/challenges/dynamic-array
 	private static void dynamicArray(){
 		
+		int n = in.nextInt();
+		int q = in.nextInt();
+		
+		List<List<Integer>> seqList = new ArrayList<List<Integer>>();
+		for(int i = 0; i < n; i++){
+			seqList.add(new ArrayList<Integer>());
+		}
+		
+		int lastAns = 0;
+		
+		for(int i = 0; i < q; i++){
+			int num = in.nextInt();
+			
+			int x = in.nextInt();
+			int y = in.nextInt();
+			
+			int index = (xor(x, lastAns) % n);
+			
+			if(num == 1){
+				seqList.get(index).add(y);
+			}
+			if(num == 2){
+				int result = y % seqList.get(index).size();
+				lastAns = seqList.get(index).get(result);
+				System.out.println(lastAns);
+			}
+		}		
 	}
 	
 	//https://www.hackerrank.com/challenges/2d-array
@@ -363,10 +390,11 @@ public class Main {
 		return sum;
 	}
 	
-	private static boolean xor(int a, int b){
-		if(a != b)
-			return true;
-		return false;
+	private static int xor(int a, int b){
+		if((a == 1 && b == 0) ||  (a == 0 && b == 1)){
+			return 1;
+		}
+		return 0;
 	}
 
 }
