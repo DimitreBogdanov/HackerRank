@@ -1,8 +1,12 @@
 package com.application.main;
 
-import java.util.Scanner;
 import java.math.BigInteger;
-import java.text.*;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import com.sun.xml.internal.ws.util.StringUtils;
 
 @SuppressWarnings(value = { "unused" })
 public class Main {
@@ -11,70 +15,163 @@ public class Main {
 
 	public static void main(String[] args) {
 		in = new Scanner(System.in);
-		
-		
 
 		
+
 		in.close();
 	}
 	
-	//https://www.hackerrank.com/challenges/fibonacci-modified
-	//up to 32 bit
-	private static float modifiedFibonnaci(int first, int second, int n){
+	
+	//https://www.hackerrank.com/challenges/arrays-ds
+	private static void arrayDS(){
 		
-		if(n == 1)
-			return first;
+		int n = in.nextInt();
+		int[] arr = new int[n];
 		
-		if(n == 2)
-			return second;
+		for(int i = 0; i < n; i++){
+			arr[i] = in.nextInt();
+		}
+		
+		for(int i = n-1; i >=0; i--){
+			System.out.print(arr[i] + " ");
+		}
+		
+	}
+
+	// https://www.hackerrank.com/challenges/abbr
+	//Incompleted
+	private static void abbreviation() {
+		int q = in.nextInt();
+
+		for (int i = 0; i < q; i++) {
+			//Uppercase and lowercase
+			String a = in.next();
+			//Only uppercase
+			String b = in.next();
 			
-		return (float)(modifiedFibonnaci(first, second, n-2) + Math.pow(modifiedFibonnaci(first, second, n-1),2));
+			List<Integer> positions = new ArrayList<Integer>();
+			
+			//if a contains the string of b => might need to check individual letters
+			
+			//first start by checking if the whole string is there , remove the string from a and see if the rest are all lowercase
+			//and then test that code, if it doesn't work, might need to check individual characters
+			
+			//Go through all the characters in B, if it is not present in A get out with false
+			//If it is present, add the index to the 'positions' list
+			//If it is present but the index is already in 'positions', check for after that
+			//At the end, replace all with space, then trim space and check if remaining letters are lower case only, 
+			//if not return with false
+			char[] array = b.toCharArray();
+			for(int j = 0; j < array.length; j++){
+				
+				char c = array[j];
+				int index = a.toLowerCase().indexOf(Character.toString(Character.toLowerCase(c)));
+				
+				if (index < 0){
+					System.out.println("NO");
+					continue;
+				}
+				else{
+					while(positions.contains(index)){
+						index = a.toLowerCase().lastIndexOf(Character.toString(Character.toLowerCase(c)), index+1);
+					}
+					if(index < 0){
+						System.out.println("NO");
+						continue;
+					}else{
+						positions.add(index);
+					}
+				}
+			}
+			
+			for(int num:positions){
+				char[] arr = a.toCharArray();
+				arr[num] = ' ';
+				a = String.copyValueOf(arr);
+			}
+			
+			a = a.replace(" ", "");
+			
+			if(isLowerCase(a)){
+				System.out.println("YES");
+			}else{
+				System.out.println("NO");
+			}
+			
+			
+			
+		}//end outer for
+
 		
+		//return true;
 	}
 	
-	//https://www.hackerrank.com/challenges/fibonacci-modified
-	//above 64 bit
-	private static BigInteger modifiedFib(int first, int second, int n){
-		if(n == 1)
+	private static boolean isLowerCase(String s){
+		for(char c: s.toCharArray()){
+			if(!Character.isLowerCase(c))
+				return false;
+		}
+		return true;
+	}
+
+	// https://www.hackerrank.com/challenges/fibonacci-modified
+	// up to 32 bit
+	private static float modifiedFibonnaci(int first, int second, int n) {
+
+		if (n == 1)
+			return first;
+
+		if (n == 2)
+			return second;
+
+		return (float) (modifiedFibonnaci(first, second, n - 2) + Math.pow(modifiedFibonnaci(first, second, n - 1), 2));
+
+	}
+
+	// https://www.hackerrank.com/challenges/fibonacci-modified
+	// above 64 bit
+	private static BigInteger modifiedFib(int first, int second, int n) {
+		if (n == 1)
 			return BigInteger.valueOf(first);
-		if(n == 2)
+		if (n == 2)
 			return BigInteger.valueOf(second);
-		
-		return modifiedFib(first,second,n-2).add(modifiedFib(first,second,n-1).pow(2));
+
+		return modifiedFib(first, second, n - 2).add(modifiedFib(first, second, n - 1).pow(2));
 	}
-	
-	private static void candies(){
+
+	//Incomplete
+	private static void candies() {
 		int n = in.nextInt();
 		int[] a = new int[n];
-		for(int i = 0; i < n; i++){
+		for (int i = 0; i < n; i++) {
 			a[i] = in.nextInt();
 		}
 		int count = 1;
 		int amount = 1;
-		for(int i = 1; i < n; i++){
-			if(a[i] > a[i-1]){
+		for (int i = 1; i < n; i++) {
+			if (a[i] > a[i - 1]) {
 				amount++;
-			}else{
-				if(i < n-1 && a[i] > a[i+1]){
+			} else {
+				if (i < n - 1 && a[i] > a[i + 1]) {
 					amount--;
-				}else{
+				} else {
 					amount = 1;
 				}
-				
-				
-//				amount = 1;
-//				if(i < n-1 && a[i+1] < a[i]){
-//					amount++;
-//				}
+
+				// amount = 1;
+				// if(i < n-1 && a[i+1] < a[i]){
+				// amount++;
+				// }
 			}
 			count += amount;
 		}
-		
+
 		System.out.println(count);
 	}
 
 	static int sum = 0;
 
+	//Incomplete
 	private static void verticalSticks() {
 		int t = in.nextInt();
 		DecimalFormat df = new DecimalFormat("#,###,##0.00");
@@ -95,6 +192,7 @@ public class Main {
 
 	}
 
+	//Incomplete
 	private static void sherlock() {
 
 		int t = in.nextInt();
@@ -120,6 +218,7 @@ public class Main {
 
 	}
 
+	//Incomplete
 	private static void equal() {
 		int cases = in.nextInt();
 
@@ -134,6 +233,7 @@ public class Main {
 		}
 	}
 
+	//Incomplete
 	private static void xorAndSum() {
 		int a = in.nextInt();
 		int b = in.nextInt();
@@ -201,21 +301,21 @@ public class Main {
 		}
 
 	}
-	
+
 	private static void swap(int[] a, int i, int j) {
-	    int temp = a[i];
-	    a[i] = a[j];
-	    a[j] = temp;
+		int temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
 	}
 
 	private static int factorial(int n) {
-//		if (n <= 1)
-//			return 1;
-//		return n * factorial(n - 1);
-		
+		// if (n <= 1)
+		// return 1;
+		// return n * factorial(n - 1);
+
 		int sum = n;
-		while(n > 1){
-			sum *=  (--n);
+		while (n > 1) {
+			sum *= (--n);
 		}
 		return sum;
 	}
