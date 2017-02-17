@@ -3,6 +3,9 @@ package com.application.main;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,12 +19,42 @@ public class Main {
 	public static void main(String[] args) {
 		in = new Scanner(System.in);
 
-		dynamicArray();
+		crush();
 
 		in.close();
 	}
 	
+	//https://www.hackerrank.com/challenges/crush
+	//Works but is too slow for some test cases
+	private static void crush(){
+		
+		int n = in.nextInt();
+		int m = in.nextInt();
+		
+		long max = Long.MIN_VALUE;
+		
+		long[] arr = new long[n];
+		
+		for(int i = 0; i < m; i++){
+			int a = in.nextInt();
+			int b = in.nextInt();
+			long k = in.nextInt();
+			
+			
+			for(int j = a-1; j < b; j++){
+				long newValue = arr[j] + k;
+				arr[j] = newValue;
+				if(newValue > max)
+					max = newValue;
+			}
+		}
+		
+		System.out.println(max);
+		
+	}
+	
 	//https://www.hackerrank.com/challenges/dynamic-array
+	//Does not pass all tests
 	private static void dynamicArray(){
 		
 		int n = in.nextInt();
@@ -46,11 +79,24 @@ public class Main {
 				seqList.get(index).add(y);
 			}
 			if(num == 2){
+				System.out.println("Size: " + seqList.get(index).size());
 				int result = y % seqList.get(index).size();
 				lastAns = seqList.get(index).get(result);
 				System.out.println(lastAns);
 			}
 		}		
+	}
+	
+	private static int xor(int a, int b){
+//		if((a == 1 && b == 0) ||  (a == 0 && b == 1)){
+//			return 1;
+//		}
+//		return 0;
+		
+		if(a == b){
+			return 0;
+		}
+		return 1;
 	}
 	
 	//https://www.hackerrank.com/challenges/2d-array
@@ -388,13 +434,6 @@ public class Main {
 			sum *= (--n);
 		}
 		return sum;
-	}
-	
-	private static int xor(int a, int b){
-		if((a == 1 && b == 0) ||  (a == 0 && b == 1)){
-			return 1;
-		}
-		return 0;
 	}
 
 }
