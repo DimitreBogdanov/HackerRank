@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 
+import com.application.structures.Queue;
 import com.sun.xml.internal.ws.util.StringUtils;
 
 @SuppressWarnings(value = { "unused" })
@@ -20,9 +21,33 @@ public class Main {
 	public static void main(String[] args) {
 		in = new Scanner(System.in);
 
-		maxStackElement();
+		queueUsingStacks();
 
 		in.close();
+	}
+
+	// https://www.hackerrank.com/challenges/queue-using-two-stacks
+	private static void queueUsingStacks() {
+		int q = in.nextInt();
+
+		Queue<Integer> queue = new Queue<Integer>();
+		
+		for (int i = 0; i < q; i++) {
+			int type = in.nextInt();
+
+			switch (type) {
+			case 1:
+				int num = in.nextInt();
+				queue.enqueue(num);
+				break;
+			case 2:
+				queue.dequeue();
+				break;
+			default:
+				System.out.println(queue.front());
+				break;
+			}
+		}
 	}
 
 	// https://www.hackerrank.com/challenges/maximum-element
@@ -49,42 +74,42 @@ public class Main {
 			}
 		}
 	}
-	
+
 	private static Stack<Integer> sort(Stack<Integer> s) {
 
-	       if (s.isEmpty()) {
-	        return s;
-	      }
-	      int pivot = s.pop();
+		if (s.isEmpty()) {
+			return s;
+		}
+		int pivot = s.pop();
 
-	      // partition
-	      Stack<Integer> left  = new Stack<Integer>();
-	      Stack<Integer> right = new Stack<Integer>();
-	      while(!s.isEmpty()) {
-	        int y = s.pop();
-	        if (y < pivot) {
-	          left.push(y);
-	        } else {
-	          right.push(y);
-	        }
-	      }
-	      sort(left);
-	      sort(right);
+		// partition
+		Stack<Integer> left = new Stack<Integer>();
+		Stack<Integer> right = new Stack<Integer>();
+		while (!s.isEmpty()) {
+			int y = s.pop();
+			if (y < pivot) {
+				left.push(y);
+			} else {
+				right.push(y);
+			}
+		}
+		sort(left);
+		sort(right);
 
-	      // merge
-	      Stack<Integer> tmp = new Stack<Integer>();
-	      while(!right.isEmpty()) {
-	        tmp.push(right.pop());
-	      }
-	      tmp.push(pivot);
-	      while(!left.isEmpty()) {
-	        tmp.push(left.pop());
-	      }
-	      while(!tmp.isEmpty()) {
-	        s.push(tmp.pop());
-	      }
-	      return s;
-	    }
+		// merge
+		Stack<Integer> tmp = new Stack<Integer>();
+		while (!right.isEmpty()) {
+			tmp.push(right.pop());
+		}
+		tmp.push(pivot);
+		while (!left.isEmpty()) {
+			tmp.push(left.pop());
+		}
+		while (!tmp.isEmpty()) {
+			s.push(tmp.pop());
+		}
+		return s;
+	}
 
 	// https://www.hackerrank.com/challenges/crush
 	// Works but is too slow for some test cases
