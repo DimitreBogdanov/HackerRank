@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 import com.sun.xml.internal.ws.util.StringUtils;
 
@@ -19,212 +20,273 @@ public class Main {
 	public static void main(String[] args) {
 		in = new Scanner(System.in);
 
-		crush();
+		maxStackElement();
 
 		in.close();
 	}
+
+	// https://www.hackerrank.com/challenges/maximum-element
+	private static void maxStackElement() {
+
+		int n = in.nextInt();
+
+		Stack<Integer> stack = new Stack<Integer>();
+
+		for (int i = 0; i < n; i++) {
+			switch (in.nextInt()) {
+			case 1:
+				int num = in.nextInt();
+				stack.push(num);
+				break;
+			case 2:
+				stack.pop();
+				break;
+			case 3:
+				System.out.println(sort(stack).pop());
+				break;
+			default:
+				break;
+			}
+		}
+	}
 	
-	//https://www.hackerrank.com/challenges/crush
-	//Works but is too slow for some test cases
-	private static void crush(){
-		
+	private static Stack<Integer> sort(Stack<Integer> s) {
+
+	       if (s.isEmpty()) {
+	        return s;
+	      }
+	      int pivot = s.pop();
+
+	      // partition
+	      Stack<Integer> left  = new Stack<Integer>();
+	      Stack<Integer> right = new Stack<Integer>();
+	      while(!s.isEmpty()) {
+	        int y = s.pop();
+	        if (y < pivot) {
+	          left.push(y);
+	        } else {
+	          right.push(y);
+	        }
+	      }
+	      sort(left);
+	      sort(right);
+
+	      // merge
+	      Stack<Integer> tmp = new Stack<Integer>();
+	      while(!right.isEmpty()) {
+	        tmp.push(right.pop());
+	      }
+	      tmp.push(pivot);
+	      while(!left.isEmpty()) {
+	        tmp.push(left.pop());
+	      }
+	      while(!tmp.isEmpty()) {
+	        s.push(tmp.pop());
+	      }
+	      return s;
+	    }
+
+	// https://www.hackerrank.com/challenges/crush
+	// Works but is too slow for some test cases
+	private static void crush() {
+
 		int n = in.nextInt();
 		int m = in.nextInt();
-		
+
 		long max = Long.MIN_VALUE;
-		
+
 		long[] arr = new long[n];
-		
-		for(int i = 0; i < m; i++){
+
+		for (int i = 0; i < m; i++) {
 			int a = in.nextInt();
 			int b = in.nextInt();
 			long k = in.nextInt();
-			
-			
-			for(int j = a-1; j < b; j++){
+
+			for (int j = a - 1; j < b; j++) {
 				long newValue = arr[j] + k;
 				arr[j] = newValue;
-				if(newValue > max)
+				if (newValue > max)
 					max = newValue;
 			}
 		}
-		
+
 		System.out.println(max);
-		
+
 	}
-	
-	//https://www.hackerrank.com/challenges/dynamic-array
-	//Does not pass all tests
-	private static void dynamicArray(){
-		
+
+	// https://www.hackerrank.com/challenges/dynamic-array
+	// Does not pass all tests
+	private static void dynamicArray() {
+
 		int n = in.nextInt();
 		int q = in.nextInt();
-		
+
 		List<List<Integer>> seqList = new ArrayList<List<Integer>>();
-		for(int i = 0; i < n; i++){
+		for (int i = 0; i < n; i++) {
 			seqList.add(new ArrayList<Integer>());
 		}
-		
+
 		int lastAns = 0;
-		
-		for(int i = 0; i < q; i++){
+
+		for (int i = 0; i < q; i++) {
 			int num = in.nextInt();
-			
+
 			int x = in.nextInt();
 			int y = in.nextInt();
-			
+
 			int index = (xor(x, lastAns) % n);
-			
-			if(num == 1){
+
+			if (num == 1) {
 				seqList.get(index).add(y);
 			}
-			if(num == 2){
+			if (num == 2) {
 				System.out.println("Size: " + seqList.get(index).size());
 				int result = y % seqList.get(index).size();
 				lastAns = seqList.get(index).get(result);
 				System.out.println(lastAns);
 			}
-		}		
+		}
 	}
-	
-	private static int xor(int a, int b){
-//		if((a == 1 && b == 0) ||  (a == 0 && b == 1)){
-//			return 1;
-//		}
-//		return 0;
-		
-		if(a == b){
+
+	private static int xor(int a, int b) {
+		// if((a == 1 && b == 0) || (a == 0 && b == 1)){
+		// return 1;
+		// }
+		// return 0;
+
+		if (a == b) {
 			return 0;
 		}
 		return 1;
 	}
-	
-	//https://www.hackerrank.com/challenges/2d-array
-	private static void hourglass(){
-		
+
+	// https://www.hackerrank.com/challenges/2d-array
+	private static void hourglass() {
+
 		int row = 6;
 		int col = 6;
 		int[][] graph = new int[6][6];
 
-		for(int i = 0; i < row; i++)
-			for(int j = 0; j < col; j++)
+		for (int i = 0; i < row; i++)
+			for (int j = 0; j < col; j++)
 				graph[i][j] = in.nextInt();
-		
-		//[1][1] to [4][4] is the middle of an hourglass
-		
+
+		// [1][1] to [4][4] is the middle of an hourglass
+
 		int max = Integer.MIN_VALUE;
-		
-		for(int i = 1; i <= row-2; i++){
-			for(int j = 1; j <= col-2; j++){
+
+		for (int i = 1; i <= row - 2; i++) {
+			for (int j = 1; j <= col - 2; j++) {
 				int a0 = graph[i][j];
-				
-				int a1 = graph[i-1][j-1];
-				int a2 = graph[i-1][j];
-				int a3 = graph[i-1][j+1];
-				
-				int a4 = graph[i+1][j-1];
-				int a5 = graph[i+1][j];
-				int a6 = graph[i+1][j+1];
-				
-				int sum = a0+a1+a2+a3+a4+a5+a6;
-				
-				if(sum > max)
+
+				int a1 = graph[i - 1][j - 1];
+				int a2 = graph[i - 1][j];
+				int a3 = graph[i - 1][j + 1];
+
+				int a4 = graph[i + 1][j - 1];
+				int a5 = graph[i + 1][j];
+				int a6 = graph[i + 1][j + 1];
+
+				int sum = a0 + a1 + a2 + a3 + a4 + a5 + a6;
+
+				if (sum > max)
 					max = sum;
 			}
 		}
-		
+
 		System.out.println(max);
-		
+
 	}
-	
-	
-	//https://www.hackerrank.com/challenges/arrays-ds
-	private static void arrayDS(){
-		
+
+	// https://www.hackerrank.com/challenges/arrays-ds
+	private static void arrayDS() {
+
 		int n = in.nextInt();
 		int[] arr = new int[n];
-		
-		for(int i = 0; i < n; i++){
+
+		for (int i = 0; i < n; i++) {
 			arr[i] = in.nextInt();
 		}
-		
-		for(int i = n-1; i >=0; i--){
+
+		for (int i = n - 1; i >= 0; i--) {
 			System.out.print(arr[i] + " ");
 		}
-		
+
 	}
 
 	// https://www.hackerrank.com/challenges/abbr
-	//Incompleted
+	// Incompleted
 	private static void abbreviation() {
 		int q = in.nextInt();
 
 		for (int i = 0; i < q; i++) {
-			//Uppercase and lowercase
+			// Uppercase and lowercase
 			String a = in.next();
-			//Only uppercase
+			// Only uppercase
 			String b = in.next();
-			
+
 			List<Integer> positions = new ArrayList<Integer>();
-			
-			//if a contains the string of b => might need to check individual letters
-			
-			//first start by checking if the whole string is there , remove the string from a and see if the rest are all lowercase
-			//and then test that code, if it doesn't work, might need to check individual characters
-			
-			//Go through all the characters in B, if it is not present in A get out with false
-			//If it is present, add the index to the 'positions' list
-			//If it is present but the index is already in 'positions', check for after that
-			//At the end, replace all with space, then trim space and check if remaining letters are lower case only, 
-			//if not return with false
+
+			// if a contains the string of b => might need to check individual
+			// letters
+
+			// first start by checking if the whole string is there , remove the
+			// string from a and see if the rest are all lowercase
+			// and then test that code, if it doesn't work, might need to check
+			// individual characters
+
+			// Go through all the characters in B, if it is not present in A get
+			// out with false
+			// If it is present, add the index to the 'positions' list
+			// If it is present but the index is already in 'positions', check
+			// for after that
+			// At the end, replace all with space, then trim space and check if
+			// remaining letters are lower case only,
+			// if not return with false
 			char[] array = b.toCharArray();
-			for(int j = 0; j < array.length; j++){
-				
+			for (int j = 0; j < array.length; j++) {
+
 				char c = array[j];
 				int index = a.toLowerCase().indexOf(Character.toString(Character.toLowerCase(c)));
-				
-				if (index < 0){
+
+				if (index < 0) {
 					System.out.println("NO");
 					continue;
-				}
-				else{
-					while(positions.contains(index)){
-						index = a.toLowerCase().lastIndexOf(Character.toString(Character.toLowerCase(c)), index+1);
+				} else {
+					while (positions.contains(index)) {
+						index = a.toLowerCase().lastIndexOf(Character.toString(Character.toLowerCase(c)), index + 1);
 					}
-					if(index < 0){
+					if (index < 0) {
 						System.out.println("NO");
 						continue;
-					}else{
+					} else {
 						positions.add(index);
 					}
 				}
 			}
-			
-			for(int num:positions){
+
+			for (int num : positions) {
 				char[] arr = a.toCharArray();
 				arr[num] = ' ';
 				a = String.copyValueOf(arr);
 			}
-			
+
 			a = a.replace(" ", "");
-			
-			if(isLowerCase(a)){
+
+			if (isLowerCase(a)) {
 				System.out.println("YES");
-			}else{
+			} else {
 				System.out.println("NO");
 			}
-			
-			
-			
-		}//end outer for
 
-		
-		//return true;
+		} // end outer for
+
+		// return true;
 	}
-	
-	private static boolean isLowerCase(String s){
-		for(char c: s.toCharArray()){
-			if(!Character.isLowerCase(c))
+
+	private static boolean isLowerCase(String s) {
+		for (char c : s.toCharArray()) {
+			if (!Character.isLowerCase(c))
 				return false;
 		}
 		return true;
@@ -255,7 +317,7 @@ public class Main {
 		return modifiedFib(first, second, n - 2).add(modifiedFib(first, second, n - 1).pow(2));
 	}
 
-	//Incomplete
+	// Incomplete
 	private static void candies() {
 		int n = in.nextInt();
 		int[] a = new int[n];
@@ -287,7 +349,7 @@ public class Main {
 
 	static int sum = 0;
 
-	//Incomplete
+	// Incomplete
 	private static void verticalSticks() {
 		int t = in.nextInt();
 		DecimalFormat df = new DecimalFormat("#,###,##0.00");
@@ -308,7 +370,7 @@ public class Main {
 
 	}
 
-	//Incomplete
+	// Incomplete
 	private static void sherlock() {
 
 		int t = in.nextInt();
@@ -334,7 +396,7 @@ public class Main {
 
 	}
 
-	//Incomplete
+	// Incomplete
 	private static void equal() {
 		int cases = in.nextInt();
 
@@ -349,7 +411,7 @@ public class Main {
 		}
 	}
 
-	//Incomplete
+	// Incomplete
 	private static void xorAndSum() {
 		int a = in.nextInt();
 		int b = in.nextInt();
